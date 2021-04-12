@@ -62,10 +62,27 @@ function MyApp() {
          return false;         
       }
     }
-
+    async function makeDeleteCall(id)
+    {
+      try {
+        const response = await axios.delete('http://localhost:5000/users'+ '/' + id);
+        return response.data.users_list;     
+     }
+     catch (error){
+        //We're not handling errors. Just logging into the console.
+        console.log(error); 
+        return false;         
+     }
+    }
     function removeOneCharacter (index) {
       const updated = characters.filter((character, i) => {
-          return i !== index
+          if (i != index)
+            return true
+          else
+          {
+            makeDeleteCall(character['id'])
+            return false;
+          }
         });
         setCharacters(updated);
       } 
